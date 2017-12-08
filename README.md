@@ -61,21 +61,25 @@ To receive callbacks, implement the following two methods in `MotionDnaSDK`
 `receiveNetworkData(NetworkCode, map)` serves all non-motiondna types. Use NetworkCode as a switch
 
 NetworkCode values:
+
 `0: RAW_NETWORK_DATA`
 * map holds exactly two values:
 * `{"ID": string}` is a 64-byte key whose prefix matches/contains the prefix of the deviceID (whichever is shorter).
 * `{"payload": string}` the payload that was send using an above call of `sendUDPPacket`.
+
 `1: ROOM_CAPACITY_STATUS`
 * response from a `sendUDPQueryRooms` call
 * map holds multiple values where the key is the room name requested, and the value is the number of current active connections in the room (including current device)
+
 `2: EXCEEDED_ROOM_CONNECTION_CAPACITY`
 * error code if attempting to broadcast to a room which already exists, but currently has reached its max capacity and cannot create a new connection
 * map is null
+
 `3: EXCEEDED_SERVER_ROOM_CAPACITY`
 * error code if attempting to broadcast to a room which does not exist, but the server has reached the max number of rooms and cannot create a new room
 * maps is null
 
-** TODO **
+**TODO**
 
 * Implement a quiet mode for server
 * Throttle send-packet speeds to something reasonable
