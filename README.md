@@ -1,9 +1,13 @@
 # NaviServer
 Navisens Golang UDP Server
 
+## Build
+
 Install golang on server, then run this to build and run server
 
-```$ go build -o server . && ./server```
+```bash
+$ go build -o server . && ./server
+```
 
 Or just run the executable in a screen for deploying server.
 
@@ -36,8 +40,11 @@ Additional features are provided for starting a server, moving rooms, sending pa
 **Starting a server**
 
 `startUDP()`
+
 `startUDP(room)`
+
 `startUDP(host, port)`
+
 `startUDP(room, host, port)`
 
 Any unspecified fields are set to default values. Note that the default host/port currently only works for local Navisens employees.
@@ -51,6 +58,7 @@ Room names are always strings.
 **Sending packets**
 
 `sendUDPPacket(string)` - sends a udp packet which is encrypted and sent securely to server. Server will not be able to decrypt packet. Only receiving client will be able to read packet.
+
 `sendUDPQueryRooms(array of strings)` - sends a request to server to get the current number of active connections in each server room. (see handling below on how to interpret feedback). Note that it was designed purposefully that the client cannot get a list of servers. The server does NOT know the names of any servers, as all names are hashed! It is the developer's responsibility to code in any server rooms needed, and for all clients to acknowledge room names appropriately. This is for privacy concerns, as multiple different developers can host rooms on the same server, but only the developer (or users) who started a room should know of its existence. Privacy through obscurity.
 
 **Receiving callbacks**
@@ -58,6 +66,7 @@ Room names are always strings.
 To receive callbacks, implement the following two methods in `MotionDnaSDK`
 
 `receiveNetworkData(MotionDna)` is the new callback for receiving motionDna from network users. It has its own queue, and is processed separately from the internal motionDna.
+
 `receiveNetworkData(NetworkCode, map)` serves all non-motiondna types. Use NetworkCode as a switch
 
 NetworkCode values:
