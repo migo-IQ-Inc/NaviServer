@@ -28,9 +28,13 @@ Add the environment variable `GOOS=linux` to build for (for example) linux.
 ```
 
 `serverHost` string: is the ip of the server host. The default uses the current local ip.
+
 `serverPort` integer: specifies the port to host the server on.
+
 `maxNumberOfServerRooms` integer: limits the number of server rooms to host
+
 `maxNumberOfConnectionsPerServer` integer: limits the number of users on the same server. This number does not depend on server capabilities, but rather should reflect how connections will be used on the client side, because if too many users are being served on the same server, the client may become overloaded and unusable due to consuming all available bandwidth and/or computing power.
+
 `connectionTimeoutInSeconds` integer: the timeout before removing a connection from a server room. For example, when a connection switches rooms, the server will only check for connection timeout periodically, and on the second timeout check, if the connection has not responded to a particular server room, it will be removed from that room (but not the new room it switched to). Servers have twice the timeout length, and are only deleted when no connections remain.
 
 ## SDK Usage
@@ -47,7 +51,7 @@ Additional features are provided for starting a server, moving rooms, sending pa
 
 `startUDP(room, host, port)`
 
-Any unspecified fields are set to default values. Note that the default host/port currently only works for local Navisens employees.
+Any unspecified fields are set to default values. Note that the default host/port should not be used for release builds, as they may become unreliable if overloaded by developers testing.
 
 **Changing server room**
 
@@ -73,8 +77,8 @@ NetworkCode values:
 
 `0: RAW_NETWORK_DATA`
 * map holds exactly two values:
-* `{"ID": string}` is a 64-byte key whose prefix matches/contains the prefix of the deviceID (whichever is shorter).
-* `{"payload": string}` the payload that was send using an above call of `sendUDPPacket`.
+* `{"ID": string}` is a 64-byte key whose prefix matches/contains the prefix of the deviceID (whichever is shorter) that send the packet.
+* `{"payload": string}` the payload that was sent using an above call of `sendUDPPacket`.
 
 `1: ROOM_CAPACITY_STATUS`
 * response from a `sendUDPQueryRooms` call
